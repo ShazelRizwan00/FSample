@@ -104,7 +104,12 @@ function AirTower({ product }: { product: CoolingProduct }) {
 
       {/* 120 mm fan on the front face of the tower */}
       <group position={[fanX, 0, -(COOLER.finDepth / 2 + COOLER.fanThickness / 2)]}>
-        <Fan size={COOLER.finHeight} thickness={COOLER.fanThickness} spin={2.1} />
+        <Fan
+          size={COOLER.finHeight}
+          thickness={COOLER.fanThickness}
+          spin={2.1}
+          label={product.brand}
+        />
       </group>
 
       {/* Fan retention clips */}
@@ -204,7 +209,12 @@ function LiquidLoop({ product }: { product: CoolingProduct }) {
           position={[AIO.radiatorWidth / 2 - 1.4, AIO.y - AIO.radiatorThickness / 2 - 1.3, z]}
           rotation={[-Math.PI / 2, 0, 0]}
         >
-          <Fan size={12} thickness={2.5} spin={index % 2 === 0 ? 2.6 : -2.6} />
+          <Fan
+            size={12}
+            thickness={2.5}
+            spin={index % 2 === 0 ? 2.6 : -2.6}
+            label={product.brand}
+          />
         </group>
       ))}
     </group>

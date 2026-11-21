@@ -4,6 +4,8 @@ import {
   DIMM_SLOT_Z,
   PCB_THICKNESS,
 } from '../mounts'
+import { productModelName } from '@/lib/catalog'
+import { Label } from '../decals'
 import { useMaterialSet, type MaterialSpec } from '../materials'
 import type { MotherboardProduct } from '@/lib/types'
 
@@ -255,6 +257,25 @@ export function Motherboard({ product }: { product: MotherboardProduct }) {
           <cylinderGeometry args={[0.28, 0.28, 0.9, 10]} />
         </mesh>
       ))}
+
+      {/* Silkscreen board branding on the exposed front third */}
+      <Label
+        descriptor={{
+          text: product.brand,
+          sub: productModelName(product),
+          width: 7,
+          height: 1.7,
+        }}
+        position={[-PCB_THICKNESS - 0.03, 14, -24]}
+        rotation={[0, -Math.PI / 2, 0]}
+      />
+
+      {/* Chipset heatsink marking */}
+      <Label
+        descriptor={{ text: product.brand, width: 2.4, height: 0.72 }}
+        position={[-PCB_THICKNESS - 1.23, BOARD_LAYOUT.chipset.y, BOARD_LAYOUT.chipset.z]}
+        rotation={[0, -Math.PI / 2, 0]}
+      />
 
       {/* Silkscreen registration marks */}
       <mesh position={[-PCB_THICKNESS - 0.03, height - 0.9, -2.2]} material={materials.gold}>

@@ -1,6 +1,8 @@
 import { RoundedBox } from '@react-three/drei'
+import { productModelName } from '@/lib/catalog'
 import { mm } from '../mounts'
 import { useMaterialSet, type MaterialSpec } from '../materials'
+import { Label } from '../decals'
 import { Fan } from './Fan'
 import type { GpuProduct } from '@/lib/types'
 
@@ -119,6 +121,17 @@ export function GpuCard({ product }: { product: GpuProduct }) {
         material={materials.backplate}
         castShadow
       />
+      {/* Branding on the glass-facing shroud edge, where a showcase build shows it. */}
+      <Label
+        descriptor={{
+          text: product.brand,
+          sub: productModelName(product),
+          width: Math.min(length * 0.4, 11),
+          height: 1.15,
+        }}
+        position={[-width / 2 - 0.01, thickness / 2, -length * 0.34]}
+        rotation={[0, -Math.PI / 2, 0]}
+      />
       <mesh
         position={[width * 0.18, thickness + 0.1, -length * 0.5]}
         material={materials.backplateInset}
@@ -147,7 +160,7 @@ export function GpuCard({ product }: { product: GpuProduct }) {
       </mesh>
 
       {/* Power connectors on the top edge */}
-      {(isFlagship ? [-2.4, -4.6] : [-2.6]).map((z) => (
+      {(product.powerConnectors >= 2 ? [-2.4, -4.6] : [-2.6]).map((z) => (
         <mesh
           key={z}
           position={[width * 0.16, thickness + 0.4, z]}
@@ -188,6 +201,7 @@ export function GpuCard({ product }: { product: GpuProduct }) {
             spin={index % 2 === 0 ? 2.9 : -2.9}
             rgb={isFlagship}
             bladeCount={9}
+            label={product.brand}
           />
         </group>
       ))}

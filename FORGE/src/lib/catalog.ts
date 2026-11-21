@@ -246,6 +246,7 @@ export const PRODUCTS: readonly Product[] = [
     vramGb: 16,
     fanCount: 3,
     slotWidth: 3,
+    powerConnectors: 1,
     dimensionsMm: { width: 336, height: 140, depth: 62 },
     specs: [
       { label: 'Memory', value: '16 GB' },
@@ -269,6 +270,7 @@ export const PRODUCTS: readonly Product[] = [
     vramGb: 12,
     fanCount: 2,
     slotWidth: 2,
+    powerConnectors: 1,
     dimensionsMm: { width: 244, height: 120, depth: 48 },
     specs: [
       { label: 'Memory', value: '12 GB' },
@@ -292,6 +294,7 @@ export const PRODUCTS: readonly Product[] = [
     vramGb: 24,
     fanCount: 3,
     slotWidth: 4,
+    powerConnectors: 2,
     dimensionsMm: { width: 358, height: 162, depth: 76 },
     specs: [
       { label: 'Memory', value: '24 GB' },
@@ -615,4 +618,17 @@ export function isProductOfCategory<C extends CategoryId>(
 ): boolean {
   const product = getProduct(id)
   return product?.category === category
+}
+
+/**
+ * Model name without the brand prefix, for printed labels where the brand is the
+ * headline ("TITAN" / "RTX-4080 Phantom"). Catalogue data is the only source.
+ */
+export function productModelName(product: {
+  brand: string
+  name: string
+}): string {
+  const escaped = product.brand.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const model = product.name.replace(new RegExp(`^${escaped}\\s*`, 'i'), '').trim()
+  return model.length > 0 ? model : product.name
 }

@@ -1,5 +1,6 @@
 import { mm } from '../mounts'
 import { useMaterialSet, type MaterialSpec } from '../materials'
+import { Label } from '../decals'
 import type { StorageProduct } from '@/lib/types'
 
 /**
@@ -47,6 +48,17 @@ export function Storage({ product }: { product: StorageProduct }) {
       <mesh position={[-0.3, 0, -length * 0.42]} material={materials.label}>
         <boxGeometry args={[0.04, width * 0.55, length * 0.24]} />
       </mesh>
+      <Label
+        descriptor={{
+          text: product.brand,
+          sub: `${product.capacityGb / 1000} TB`,
+          tone: 'dark',
+          width: length * 0.2,
+          height: 0.95,
+        }}
+        position={[-0.33, 0, -length * 0.42]}
+        rotation={[0, -Math.PI / 2, 0]}
+      />
 
       <mesh position={[0, 0, -length + 0.15]} material={materials.gold}>
         <boxGeometry args={[0.12, width - 0.4, 0.3]} />

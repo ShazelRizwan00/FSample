@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import gsap from 'gsap'
 import { ExtrudeGeometry, Path, Shape, type Group } from 'three'
 import { CASE, PSU_BAY, REAR_FAN } from '../mounts'
+import { Label } from '../decals'
 import { useMaterialSet, type MaterialSpec } from '../materials'
 
 /**
@@ -211,6 +212,16 @@ export function CaseChassis({ glassOpen = false }: { glassOpen?: boolean }) {
         ))}
       </group>
 
+      {/* Front badge: a dark plate over the mesh, readable from the showcase angle. */}
+      <mesh position={[0, 7.2, -HALF_DEPTH - 0.45]} material={materials.steelDark}>
+        <boxGeometry args={[4.8, 1.5, 0.08]} />
+      </mesh>
+      <Label
+        descriptor={{ text: 'FORGE', width: 4.2, height: 1.1 }}
+        position={[0, 7.2, -HALF_DEPTH - 0.5]}
+        rotation={[0, Math.PI, 0]}
+      />
+
       {/* Motherboard tray with cable grommets */}
       <mesh position={[CASE.trayX + 0.35, 22, 0]} material={materials.interior} receiveShadow>
         <boxGeometry args={[0.35, 40, 42]} />
@@ -220,6 +231,12 @@ export function CaseChassis({ glassOpen = false }: { glassOpen?: boolean }) {
           <boxGeometry args={[0.2, 7, 4.4]} />
         </mesh>
       ))}
+      <mesh position={[CASE.trayX + 0.16, 29.5, 18.6]} material={materials.steelDark}>
+        <boxGeometry args={[0.2, 3.6, 1.4]} />
+      </mesh>
+      <mesh position={[CASE.trayX + 0.16, 23.5, 19.2]} material={materials.steelDark}>
+        <boxGeometry args={[0.2, 3.6, 1.4]} />
+      </mesh>
 
       {/* Power-supply shroud */}
       <mesh position={[-1.1, PSU_BAY.y + PSU_BAY.height + 0.2, 14]} material={materials.interior} castShadow>

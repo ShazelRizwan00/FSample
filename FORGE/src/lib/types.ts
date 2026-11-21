@@ -83,6 +83,7 @@ export type GpuProduct = BaseProduct & {
   vramGb: number
   fanCount: number
   slotWidth: number
+  powerConnectors: number
 }
 
 export type RamProduct = BaseProduct & {

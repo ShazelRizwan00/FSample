@@ -12,6 +12,7 @@ import { Motherboard } from './parts/Motherboard'
 import { PsuUnit } from './parts/PsuUnit'
 import { RamKit } from './parts/RamKit'
 import { Storage } from './parts/Storage'
+import { Wiring } from './parts/Wiring'
 
 /**
  * The assembled rig. Every slot reads from the build store, so swapping a part
@@ -88,6 +89,9 @@ export function PcRig() {
       <PartGroup category="fan" productId={fans?.id ?? null}>
         {fans ? <CaseFans product={fans} /> : null}
       </PartGroup>
+
+      {/* Power harness: attached to the hardware, outside the slot registry. */}
+      <Wiring motherboard={motherboard} gpu={gpu} psu={psu} />
     </group>
   )
 }

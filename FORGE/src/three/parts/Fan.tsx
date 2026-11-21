@@ -11,6 +11,7 @@ import {
   Vector3,
 } from 'three'
 import { useMaterialSet, type MaterialSpec } from '../materials'
+import { Label } from '../decals'
 
 /**
  * Shared fan geometry: a beveled frame with a real circular opening, a hub, a
@@ -88,6 +89,8 @@ export type FanProps = {
   spin?: number
   rgb?: boolean
   frameColor?: string
+  /** Printed hub mark, usually the fan's brand. */
+  label?: string
 }
 
 export function Fan({
@@ -96,6 +99,7 @@ export function Fan({
   bladeCount = 9,
   spin = 2.4,
   rgb = true,
+  label,
 }: FanProps) {
   const materials = useMaterialSet(FAN_MATERIALS)
   const bladesRef = useRef<InstancedMesh>(null)
@@ -174,6 +178,17 @@ export function Fan({
         <mesh material={materials.rgb} position={[0, 0, thickness / 2 - 0.02]}>
           <torusGeometry args={[size * 0.44, 0.09, 8, 56]} />
         </mesh>
+      ) : null}
+
+      {label ? (
+        <Label
+          descriptor={{
+            text: label,
+            width: hubRadius * 1.5,
+            height: hubRadius * 0.62,
+          }}
+          position={[0, 0, thickness / 2 + 0.01]}
+        />
       ) : null}
     </group>
   )

@@ -24,6 +24,7 @@ export function CaseFans({ product }: { product: FanProduct }) {
             bladeCount={bladeCount}
             spin={index % 2 === 0 ? spin : -spin}
             rgb={product.hasRgb}
+            label={product.brand}
           />
         </group>
       ))}
@@ -35,6 +36,7 @@ export function CaseFans({ product }: { product: FanProduct }) {
           bladeCount={bladeCount}
           spin={-spin}
           rgb={product.hasRgb}
+          label={product.brand}
         />
       </group>
     </group>

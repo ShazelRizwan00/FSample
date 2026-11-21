@@ -1,6 +1,7 @@
 import { RoundedBox } from '@react-three/drei'
 import { mm } from '../mounts'
 import { useMaterialSet, type MaterialSpec } from '../materials'
+import { Label } from '../decals'
 import { Fan } from './Fan'
 import type { PsuProduct } from '@/lib/types'
 
@@ -16,7 +17,6 @@ const PSU_MATERIALS = {
   grille: { color: '#0d1116', roughness: 0.6, metalness: 0.7 },
   wire: { color: '#39424e', roughness: 0.4, metalness: 0.85 },
   label: { color: '#e8eef6', roughness: 0.75, metalness: 0.05 },
-  labelInk: { color: '#121821', roughness: 0.7, metalness: 0.1 },
   connector: { color: '#10151b', roughness: 0.65, metalness: 0.3 },
   socket: { color: '#0f141a', roughness: 0.6, metalness: 0.45 },
   accent: {
@@ -52,7 +52,14 @@ export function PsuUnit({ product }: { product: PsuProduct }) {
       {/* Bottom intake fan behind a wire grille */}
       <group position={[0, -height / 2 + 0.1, depth * 0.06]}>
         <group rotation={[Math.PI / 2, 0, 0]}>
-          <Fan size={fanSize} thickness={0.9} spin={1.4} rgb={false} bladeCount={7} />
+          <Fan
+            size={fanSize}
+            thickness={0.9}
+            spin={1.4}
+            rgb={false}
+            bladeCount={7}
+            label={product.brand}
+          />
         </group>
         {Array.from({ length: 5 }).map((_, index) => (
           <mesh
@@ -69,9 +76,17 @@ export function PsuUnit({ product }: { product: PsuProduct }) {
       <mesh position={[-width / 2 - 0.03, 0.4, -0.6]} material={materials.label}>
         <boxGeometry args={[0.06, height * 0.6, depth * 0.62]} />
       </mesh>
-      <mesh position={[-width / 2 - 0.07, 0.9, -0.6]} material={materials.labelInk}>
-        <boxGeometry args={[0.02, 1.4, depth * 0.42]} />
-      </mesh>
+      <Label
+        descriptor={{
+          text: product.brand,
+          sub: `${product.wattageW} W · ${product.efficiency}`,
+          tone: 'dark',
+          width: depth * 0.5,
+          height: height * 0.32,
+        }}
+        position={[-width / 2 - 0.07, 0.55, -0.6]}
+        rotation={[0, -Math.PI / 2, 0]}
+      />
       <mesh position={[-width / 2 - 0.07, -0.7, -0.6]} material={materials.accent}>
         <boxGeometry args={[0.02, 0.22, depth * 0.4]} />
       </mesh>
